@@ -1,0 +1,74 @@
+<h1>Create An Account</h1>
+<form action="">
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">EMAIL</span>
+    <input
+      [(ngModel)]="user.email"
+      name="email"
+      placeholder="'JOHN.DOE@EMAIL.COM'"
+      type="text"
+      class="form-control"
+    />
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">USERNAME</span>
+    <input
+      [(ngModel)]="user.username"
+      name="username"
+      placeholder="'JOHNDOE132'"
+      type="text"
+      class="form-control"
+      />
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="inputGroup-sizing-default">PASSWORD</span>
+      <input
+      [(ngModel)]="user.password"
+      name="password"
+      placeholder="ENTER A PASSWORD"
+      type="password"
+      class="form-control"
+    />
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">FIRST NAME</span>
+    <input
+      [(ngModel)]="user.firstName"
+      name="firstName"
+      placeholder="'JOHN'"
+      type="text"
+      class="form-control"
+    />
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">LAST NAME</span>
+    <input
+      [(ngModel)]="user.lastName"
+      name="lastName"
+      placeholder="'DOE'"
+      type="text"
+      class="form-control"
+    />
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">IMAGE URL</span>
+    <input
+      [(ngModel)]="user.imageUrl"
+      name="imageUrl"
+      placeholder="https://..."
+      type="text"
+      class="form-control"
+      />
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="inputGroup-sizing-default">BIO</span>
+      <input
+      [(ngModel)]="user.bio"
+      name="bio"
+      placeholder="I LOVE ART!"
+      type="text"
+      class="form-control"
+      />
+  </div>
+  <button type="submit" class="btn btn-primary" (click)="register(user)">Submit</button>
+</form>
