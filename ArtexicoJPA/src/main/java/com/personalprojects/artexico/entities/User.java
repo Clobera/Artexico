@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class User {
@@ -35,12 +37,21 @@ public class User {
 
 	private String bio;
 
+	@Column(name = "account_type")
+	private String accountType;
+	
+	@ManyToOne
+	@JoinColumn(name = "borough_id")
+	private Borough borough;
+
 	public User() {
 		super();
 	}
 
+	
+
 	public User(int id, String email, String username, String password, boolean enabled, String role, String firstName,
-			String lastName, String imageUrl, String bio) {
+			String lastName, String imageUrl, String bio, String accountType, Borough borough) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -52,7 +63,11 @@ public class User {
 		this.lastName = lastName;
 		this.imageUrl = imageUrl;
 		this.bio = bio;
+		this.accountType = accountType;
+		this.borough = borough;
 	}
+
+
 
 	public int getId() {
 		return id;
@@ -133,6 +148,31 @@ public class User {
 	public void setBio(String bio) {
 		this.bio = bio;
 	}
+	
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
+
+
+	public Borough getBorough() {
+		return borough;
+	}
+
+
+
+	public void setBorough(Borough borough) {
+		this.borough = borough;
+	}
+
+
 
 	@Override
 	public int hashCode() {
@@ -155,7 +195,8 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", username=" + username + ", password=" + password
 				+ ", enabled=" + enabled + ", role=" + role + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", imageUrl=" + imageUrl + ", bio=" + bio + "]";
+				+ ", imageUrl=" + imageUrl + ", bio=" + bio + ", accountType=" + accountType + ", borough=" + borough
+				+ "]";
 	}
 
 }
