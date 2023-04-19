@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Artéxico</a>
+    <a class="navbar-brand" aria-current="page" [routerLink]="['/home']">Artéxico</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,49 +9,48 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" href="#">[FIX ME]</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
+          <a class="nav-link active">[FIX ME]</a>
         </li>
 
-        <!-- <li class="nav-item">
-          <a class="nav-link">Log In</a>
-        </li> -->
+        <li *ngIf="loggedInMethod()">
+          <div ngbDropdown>
+            <button class="btn-primary btn" id="gfg" ngbDropdownToggle>
+              ACCOUNT INFORMATION
+            </button>
+            <div ngbDropdownMenu="gfg">
+              <button ngbDropdownItem [routerLink]="['/account']">
+                <a class="nav-link active">{{loggedInUser.username}}</a>
+              </button>
+              <button ngbDropdownItem (click)="onLogout()">
+                <a class="nav-link active">LOGOUT</a>
+              </button>
+            </div>
+          </div>
+        </li>
 
-        <!-- <li class="nav-item ngbDropdown">
-          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Log In
-          </a>
-
-
-        </li> -->
-
-        <li>
+        <li *ngIf="!loggedInMethod()">
           <div ngbDropdown>
             <button class="btn-primary btn" id="gfg" ngbDropdownToggle>
               Log In
             </button>
             <div ngbDropdownMenu="gfg">
               <form action="">
-                <span class="input-group-text" id="inputGroup-sizing-default">username</span>
-                <input class="form-control" type="text">
-                <span class="input-group-text" id="inputGroup-sizing-default">password</span>
-                <input class="form-control" type="password">
+                <input class="form-control" type="text" placeholder="USERNAME" name="username" [(ngModel)]="username">
+                <input class="form-control" type="password" placeholder="PASSWORD" name="password" [(ngModel)]="password">
 
-                <button ngbDropdownItem>
+                <button ngbDropdownItem (click)="login(username, password)">
                   <a class="nav-link active">Sign In</a>
                 </button>
               </form>
-
-
-
             </div>
           </div>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!loggedInMethod()">
           <a class="nav-link" [routerLink]="['/register']">Create Account</a>
         </li>
 

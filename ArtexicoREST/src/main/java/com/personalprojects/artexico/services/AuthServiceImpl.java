@@ -20,28 +20,32 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public User register(User user) {
-		user.setPassword(encoder.encode(user.getPassword()));
-		user.setEnabled(true);
+		String endodedPW = encoder.encode(user.getPassword());
+		user.setPassword(endodedPW);
 		user.setRole("standard");
+		user.setEnabled(true);
 		userRepo.saveAndFlush(user);
-		
 		return user;
 	}
 
 	@Override
 	public User getUserByUsername(String username) {
-		return userRepo.findByUsername(username);
+		User output = userRepo.findByUsername(username);
+		if (output != null) {
+			return output;
+		}
+		return null;
 	}
 
 	@Override
 	public User getUserById(int userId) {
-		
 		Optional<User> userOpt = userRepo.findById(userId);
-		User user = null;
+		User output = new User();
 		if (userOpt.isPresent()) {
-			user = userOpt.get();
+			output = userOpt.get();
+			return output;
 		}
-		return user;
+		return null;
 	}
 
 }
