@@ -1,6 +1,7 @@
 package com.personalprojects.artexico.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -9,12 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 public class Artwork {
+	// ---------- ENTITIES ----------
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -25,52 +28,74 @@ public class Artwork {
 
 	private String image;
 
-	private boolean sold;
+	@Column(name = "for_sale")
+	private boolean forSale;
 
 	private boolean enabled;
 
+	@Column(name = "dimension_height")
 	private int dimensionHeight;
 
+	@Column(name = "dimension_width")
 	private int dimensionWidth;
 
+	@Column(name = "dimension_length")
 	private int dimensionLength;
 
 	@Column(name = "created_at")
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 
+	// --- ENTITES WITH RELATIONSHIPS---
 	@ManyToOne
 	@JoinColumn(name = "medium_id")
 	private ArtworkMedium artworkMedium;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "theme_id")
 	private Theme theme;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "artist_id")
 	private User artist;
 
+	@ManyToMany(mappedBy = "bookmarkedArt")
+	private List<User> bookmarks;
+
+	@ManyToMany(mappedBy = "artworks")
+	private List<Material> materials;
+
+	@ManyToMany(mappedBy = "artworks")
+	private List<Movement> movements;
+
+	// ----- ADD & REMOVE METHODS ------
+
+	// ---------- CONSTRUCTORS ----------
 	public Artwork() {
 		super();
 	}
 
-	public Artwork(int id, String title, double price, String image, boolean sold, boolean enabled, int dimensionHeight,
-			int dimensionWidth, int dimensionLength, LocalDateTime createdAt, User artist,
-			ArtworkMedium artworkMedium) {
+	public Artwork(int id, String title, double price, String image, boolean forSale, boolean enabled,
+			int dimensionHeight, int dimensionWidth, int dimensionLength, LocalDateTime createdAt,
+			ArtworkMedium artworkMedium, Theme theme, User artist, List<User> bookmarks, List<Material> materials,
+			List<Movement> movements) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.price = price;
 		this.image = image;
-		this.sold = sold;
+		this.forSale = forSale;
 		this.enabled = enabled;
 		this.dimensionHeight = dimensionHeight;
 		this.dimensionWidth = dimensionWidth;
 		this.dimensionLength = dimensionLength;
 		this.createdAt = createdAt;
-		this.artist = artist;
 		this.artworkMedium = artworkMedium;
+		this.theme = theme;
+		this.artist = artist;
+		this.bookmarks = bookmarks;
+		this.materials = materials;
+		this.movements = movements;
 	}
 
 	public int getId() {
@@ -105,12 +130,12 @@ public class Artwork {
 		this.image = image;
 	}
 
-	public boolean isSold() {
-		return sold;
+	public boolean isForSale() {
+		return forSale;
 	}
 
-	public void setSold(boolean sold) {
-		this.sold = sold;
+	public void setForSale(boolean forSale) {
+		this.forSale = forSale;
 	}
 
 	public boolean isEnabled() {
@@ -153,6 +178,22 @@ public class Artwork {
 		this.createdAt = createdAt;
 	}
 
+	public ArtworkMedium getArtworkMedium() {
+		return artworkMedium;
+	}
+
+	public void setArtworkMedium(ArtworkMedium artworkMedium) {
+		this.artworkMedium = artworkMedium;
+	}
+
+	public Theme getTheme() {
+		return theme;
+	}
+
+	public void setTheme(Theme theme) {
+		this.theme = theme;
+	}
+
 	public User getArtist() {
 		return artist;
 	}
@@ -161,12 +202,28 @@ public class Artwork {
 		this.artist = artist;
 	}
 
-	public ArtworkMedium getArtworkMedium() {
-		return artworkMedium;
+	public List<User> getBookmarks() {
+		return bookmarks;
 	}
 
-	public void setArtworkMedium(ArtworkMedium artworkMedium) {
-		this.artworkMedium = artworkMedium;
+	public void setBookmarks(List<User> bookmarks) {
+		this.bookmarks = bookmarks;
+	}
+
+	public List<Material> getMaterials() {
+		return materials;
+	}
+
+	public void setMaterials(List<Material> materials) {
+		this.materials = materials;
+	}
+
+	public List<Movement> getMovements() {
+		return movements;
+	}
+
+	public void setMovements(List<Movement> movements) {
+		this.movements = movements;
 	}
 
 	@Override
@@ -188,10 +245,11 @@ public class Artwork {
 
 	@Override
 	public String toString() {
-		return "Artwork [id=" + id + ", title=" + title + ", price=" + price + ", image=" + image + ", sold=" + sold
-				+ ", enabled=" + enabled + ", dimensionHeight=" + dimensionHeight + ", dimensionWidth=" + dimensionWidth
-				+ ", dimensionLength=" + dimensionLength + ", createdAt=" + createdAt + ", artist=" + artist
-				+ ", artworkMedium=" + artworkMedium + "]";
+		return "Artwork [id=" + id + ", title=" + title + ", price=" + price + ", image=" + image + ", forSale="
+				+ forSale + ", enabled=" + enabled + ", dimensionHeight=" + dimensionHeight + ", dimensionWidth="
+				+ dimensionWidth + ", dimensionLength=" + dimensionLength + ", createdAt=" + createdAt
+				+ ", artworkMedium=" + artworkMedium + ", theme=" + theme + ", artist=" + artist + ", bookmarks="
+				+ bookmarks + ", materials=" + materials + ", movements=" + movements + "]";
 	}
 
 }

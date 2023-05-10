@@ -15,16 +15,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "artwork_medium")
 public class ArtworkMedium {
+	// ---------- ENTITIES ----------
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String name;
 
+	// --- ENTITES WITH RELATIONSHIPS---
 	@JsonIgnore
 	@OneToMany(mappedBy = "artworkMedium")
 	private List<Artwork> artwork;
 
+	// ---------- CONSTRUCTORS ----------
 	public ArtworkMedium() {
 		super();
 	}
@@ -36,6 +39,7 @@ public class ArtworkMedium {
 		this.artwork = artwork;
 	}
 
+	// GETTERS & SETTERS, HASHCODE AND EQUALS, AND TO-STRING
 	public int getId() {
 		return id;
 	}

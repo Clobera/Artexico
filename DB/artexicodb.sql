@@ -69,6 +69,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `theme`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `theme` ;
+
+CREATE TABLE IF NOT EXISTS `theme` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `artwork`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `artwork` ;
@@ -79,25 +91,32 @@ CREATE TABLE IF NOT EXISTS `artwork` (
   `price` DECIMAL(10,2) NOT NULL,
   `description` TEXT NOT NULL,
   `image` TEXT NOT NULL,
-  `sold` TINYINT NOT NULL,
+  `for_sale` TINYINT NOT NULL,
   `enabled` TINYINT NOT NULL,
-  `dimension_height` VARCHAR(45) NULL,
-  `dimension_width` VARCHAR(45) NULL,
-  `dimension_length` VARCHAR(45) NULL,
-  `created_at` VARCHAR(45) NULL,
-  `user_id` INT NOT NULL,
+  `dimension_height` INT NOT NULL,
+  `dimension_width` INT NOT NULL,
+  `dimension_length` INT NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `artist_id` INT NOT NULL,
   `medium_id` INT NOT NULL,
+  `theme_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_art_piece_user_idx` (`user_id` ASC),
+  INDEX `fk_art_piece_user_idx` (`artist_id` ASC),
   INDEX `fk_art_piece_medium1_idx` (`medium_id` ASC),
+  INDEX `fk_artwork_theme1_idx` (`theme_id` ASC),
   CONSTRAINT `fk_art_piece_user`
-    FOREIGN KEY (`user_id`)
+    FOREIGN KEY (`artist_id`)
     REFERENCES `user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_art_piece_medium1`
     FOREIGN KEY (`medium_id`)
     REFERENCES `artwork_medium` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_artwork_theme1`
+    FOREIGN KEY (`theme_id`)
+    REFERENCES `theme` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -128,26 +147,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `exhibit`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `exhibit` ;
-
-CREATE TABLE IF NOT EXISTS `exhibit` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(45) NOT NULL,
-  `user_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_collection_user1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_collection_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `artwork_has_material`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `artwork_has_material` ;
@@ -166,129 +165,6 @@ CREATE TABLE IF NOT EXISTS `artwork_has_material` (
   CONSTRAINT `fk_art_piece_has_material_material1`
     FOREIGN KEY (`material_id`)
     REFERENCES `material` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `review`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `review` ;
-
-CREATE TABLE IF NOT EXISTS `review` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `content` VARCHAR(45) NOT NULL,
-  `image_url` TEXT NULL,
-  `user_id` INT NOT NULL,
-  `artwork_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_review_user1_idx` (`user_id` ASC),
-  INDEX `fk_review_artworks1_idx` (`artwork_id` ASC),
-  CONSTRAINT `fk_review_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_review_artworks1`
-    FOREIGN KEY (`artwork_id`)
-    REFERENCES `artwork` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `artworks_exhibit`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `artworks_exhibit` ;
-
-CREATE TABLE IF NOT EXISTS `artworks_exhibit` (
-  `exhibit_id` INT NOT NULL,
-  `artwork_id` INT NOT NULL,
-  PRIMARY KEY (`exhibit_id`, `artwork_id`),
-  INDEX `fk_collection_has_artworks_artworks1_idx` (`artwork_id` ASC),
-  INDEX `fk_collection_has_artworks_collection1_idx` (`exhibit_id` ASC),
-  CONSTRAINT `fk_collection_has_artworks_collection1`
-    FOREIGN KEY (`exhibit_id`)
-    REFERENCES `exhibit` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_collection_has_artworks_artworks1`
-    FOREIGN KEY (`artwork_id`)
-    REFERENCES `artwork` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `payment_method`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `payment_method` ;
-
-CREATE TABLE IF NOT EXISTS `payment_method` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `method` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `artworks_payment_method`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `artworks_payment_method` ;
-
-CREATE TABLE IF NOT EXISTS `artworks_payment_method` (
-  `artwork_id` INT NOT NULL,
-  `payment_method_id` INT NOT NULL,
-  PRIMARY KEY (`artwork_id`, `payment_method_id`),
-  INDEX `fk_artworks_has_payment_method_payment_method1_idx` (`payment_method_id` ASC),
-  INDEX `fk_artworks_has_payment_method_artworks1_idx` (`artwork_id` ASC),
-  CONSTRAINT `fk_artworks_has_payment_method_artworks1`
-    FOREIGN KEY (`artwork_id`)
-    REFERENCES `artwork` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_artworks_has_payment_method_payment_method1`
-    FOREIGN KEY (`payment_method_id`)
-    REFERENCES `payment_method` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `theme`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `theme` ;
-
-CREATE TABLE IF NOT EXISTS `theme` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `artwork_theme`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `artwork_theme` ;
-
-CREATE TABLE IF NOT EXISTS `artwork_theme` (
-  `theme_id` INT NOT NULL,
-  `artwork_id` INT NOT NULL,
-  PRIMARY KEY (`theme_id`, `artwork_id`),
-  INDEX `fk_theme_has_artworks_artworks1_idx` (`artwork_id` ASC),
-  INDEX `fk_theme_has_artworks_theme1_idx` (`theme_id` ASC),
-  CONSTRAINT `fk_theme_has_artworks_theme1`
-    FOREIGN KEY (`theme_id`)
-    REFERENCES `theme` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_theme_has_artworks_artworks1`
-    FOREIGN KEY (`artwork_id`)
-    REFERENCES `artwork` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -383,17 +259,88 @@ COMMIT;
 START TRANSACTION;
 USE `artexicodb`;
 INSERT INTO `user` (`id`, `email`, `username`, `password`, `enabled`, `role`, `first_name`, `last_name`, `image_url`, `bio`, `account_type`, `borough_id`) VALUES (1, 'carlosclobera@gmail.com', 'clobera', '$2a$10$4SMKDcs9jT18dbFxqtIqDeLEynC7MUrCEUbv1a/bhO.x9an9WGPvm', 1, 'admin', 'Carlos', 'Lobera', NULL, NULL, 'artist', 1);
+INSERT INTO `user` (`id`, `email`, `username`, `password`, `enabled`, `role`, `first_name`, `last_name`, `image_url`, `bio`, `account_type`, `borough_id`) VALUES (2, 'carloslobera@gmail.com', 'bdobbs', '$2a$10$EGfvuDgIKqhmzlDf34s/aOxU0fSWf/2uZnxQqcIS3n9j7cIwIqnFa', 1, 'admin', 'test', 'test', NULL, NULL, 'artist', 1);
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `payment_method`
+-- Data for table `artwork_medium`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `artexicodb`;
-INSERT INTO `payment_method` (`id`, `method`) VALUES (1, 'Card');
-INSERT INTO `payment_method` (`id`, `method`) VALUES (2, 'Cash');
+INSERT INTO `artwork_medium` (`id`, `name`) VALUES (1, 'Medium Test');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `theme`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `artexicodb`;
+INSERT INTO `theme` (`id`, `name`) VALUES (1, 'Theme test');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `artwork`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `artexicodb`;
+INSERT INTO `artwork` (`id`, `title`, `price`, `description`, `image`, `for_sale`, `enabled`, `dimension_height`, `dimension_width`, `dimension_length`, `created_at`, `artist_id`, `medium_id`, `theme_id`) VALUES (1, 'test', 10.99, 'test test test', 'image', 0, 1, 10, 10, 10, '2023-04-19 10:30:00', 1, 1, 1);
+INSERT INTO `artwork` (`id`, `title`, `price`, `description`, `image`, `for_sale`, `enabled`, `dimension_height`, `dimension_width`, `dimension_length`, `created_at`, `artist_id`, `medium_id`, `theme_id`) VALUES (2, 'test2', 10.99, 'test test', 'image2', 1, 1, 10, 10, 10, '2023-04-19 10:30:00', 2, 1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `movement`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `artexicodb`;
+INSERT INTO `movement` (`id`, `name`) VALUES (1, 'Contemporary');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `material`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `artexicodb`;
+INSERT INTO `material` (`id`, `name`) VALUES (1, 'Oil Paint');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `artwork_has_material`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `artexicodb`;
+INSERT INTO `artwork_has_material` (`artwork_id`, `material_id`) VALUES (1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `artwork_has_movement`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `artexicodb`;
+INSERT INTO `artwork_has_movement` (`artwork_id`, `movement_id`) VALUES (1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `user_has_bookmarked_artwork`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `artexicodb`;
+INSERT INTO `user_has_bookmarked_artwork` (`user_id`, `artwork_id`) VALUES (1, 2);
 
 COMMIT;
 

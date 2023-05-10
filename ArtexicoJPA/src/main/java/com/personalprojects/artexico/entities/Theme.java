@@ -13,16 +13,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Theme {
+	// ---------- ENTITIES ----------
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String name;
-	
+
+	// --- ENTITES WITH RELATIONSHIPS---
 	@JsonIgnore
 	@OneToMany(mappedBy = "theme")
 	private List<Artwork> artwork;
 
+	// ---------- CONSTRUCTORS ----------
 	public Theme() {
 		super();
 	}
@@ -33,6 +36,7 @@ public class Theme {
 		this.name = name;
 	}
 
+	// GETTERS & SETTERS, HASHCODE AND EQUALS, AND TO-STRING
 	public int getId() {
 		return id;
 	}

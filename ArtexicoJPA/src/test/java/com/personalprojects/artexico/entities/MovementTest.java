@@ -14,12 +14,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class UserTest {
+class MovementTest {
 
 	private static EntityManagerFactory emf;
 	private EntityManager em;
-	private User user;
-	
+	private Movement movement;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -34,37 +33,25 @@ class UserTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		user = em.find(User.class, 1);
+		movement = em.find(Movement.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		user = null;
+		movement = null;
 	}
 
 	@Test
-	void User_test() {
-		assertNotNull(user);
-		assertEquals("clobera", user.getUsername());
+	void Movement_test() {
+		assertNotNull(movement);
+		assertEquals("Contemporary", movement.getName());
 	}
 	
 	@Test
-	void User_MTO_mapping_Borough_test() {
-		assertNotNull(user);
-		assertEquals("Álvaro Obregón", user.getBorough().getName());
-	}
-	
-	@Test
-	void User_OTM_mapping_Artwork_test() {
-		assertNotNull(user);
-		assertTrue(user.getPortfolio().size() > 0);
-	}
-	
-	@Test
-	void User_MTM_mapping_Artwork_test() {
-		assertNotNull(user);
-		assertTrue(user.getBookmarkedArt().size() > 0);
+	void Movement_MTM_mapping_Artwork_test() {
+		assertNotNull(movement);
+		assertTrue(movement.getArtworks().size() > 0);
 	}
 
 }

@@ -3,18 +3,13 @@
 	<persistence-unit name="ArtexicoJPA">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider
     	</provider>
-		<class>com.personalprojects.artexico.entities.User</class>
 		<class>com.personalprojects.artexico.entities.Artwork</class>
 		<class>com.personalprojects.artexico.entities.ArtworkMedium</class>
-		<class>com.personalprojects.artexico.entities.Bookmarks</class>
-		<class>com.personalprojects.artexico.entities.BookmarksKey</class>
 		<class>com.personalprojects.artexico.entities.Borough</class>
-		<class>com.personalprojects.artexico.entities.Exhibit</class>
 		<class>com.personalprojects.artexico.entities.Material</class>
 		<class>com.personalprojects.artexico.entities.Movement</class>
-		<class>com.personalprojects.artexico.entities.PaymentMethod</class>
-		<class>com.personalprojects.artexico.entities.Review</class>
 		<class>com.personalprojects.artexico.entities.Theme</class>
+		<class>com.personalprojects.artexico.entities.User</class>
 		
 		
 		<properties>

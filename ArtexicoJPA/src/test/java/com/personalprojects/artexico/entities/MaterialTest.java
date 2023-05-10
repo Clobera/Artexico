@@ -14,12 +14,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class UserTest {
+class MaterialTest {
 
 	private static EntityManagerFactory emf;
 	private EntityManager em;
-	private User user;
-	
+	private Material material;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -34,37 +33,25 @@ class UserTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		user = em.find(User.class, 1);
+		material = em.find(Material.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		user = null;
+		material = null;
 	}
 
 	@Test
-	void User_test() {
-		assertNotNull(user);
-		assertEquals("clobera", user.getUsername());
+	void Material_test() {
+		assertNotNull(material);
+		assertEquals("Oil Paint", material.getName());
 	}
 	
 	@Test
-	void User_MTO_mapping_Borough_test() {
-		assertNotNull(user);
-		assertEquals("Álvaro Obregón", user.getBorough().getName());
-	}
-	
-	@Test
-	void User_OTM_mapping_Artwork_test() {
-		assertNotNull(user);
-		assertTrue(user.getPortfolio().size() > 0);
-	}
-	
-	@Test
-	void User_MTM_mapping_Artwork_test() {
-		assertNotNull(user);
-		assertTrue(user.getBookmarkedArt().size() > 0);
+	void Material_MTM_mapping_Artwork_test() {
+		assertNotNull(material);
+		assertTrue(material.getArtworks().size() > 0);
 	}
 
 }

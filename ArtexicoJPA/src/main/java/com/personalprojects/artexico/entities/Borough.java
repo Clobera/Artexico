@@ -13,16 +13,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Borough {
+	// ---------- ENTITIES ----------
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String name;
 
+	// --- ENTITES WITH RELATIONSHIPS---
 	@JsonIgnore
 	@OneToMany(mappedBy = "borough")
 	private List<User> users;
 
+	// ---------- CONSTRUCTORS ----------
 	public Borough() {
 		super();
 	}
@@ -34,6 +37,7 @@ public class Borough {
 		this.users = users;
 	}
 
+	// GETTERS & SETTERS, HASHCODE AND EQUALS, AND TO-STRING
 	public int getId() {
 		return id;
 	}

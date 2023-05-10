@@ -14,12 +14,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class UserTest {
+class ArtworkMediumTest {
 
 	private static EntityManagerFactory emf;
 	private EntityManager em;
-	private User user;
-	
+	private ArtworkMedium artworkMedium;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -34,37 +33,26 @@ class UserTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		user = em.find(User.class, 1);
+		artworkMedium = em.find(ArtworkMedium.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		user = null;
+		artworkMedium = null;
 	}
 
 	@Test
-	void User_test() {
-		assertNotNull(user);
-		assertEquals("clobera", user.getUsername());
-	}
-	
-	@Test
-	void User_MTO_mapping_Borough_test() {
-		assertNotNull(user);
-		assertEquals("Álvaro Obregón", user.getBorough().getName());
+	void ArtworkMedium_test() {
+		assertNotNull(artworkMedium);
+		assertEquals("Medium Test", artworkMedium.getName());
 	}
 	
 	@Test
 	void User_OTM_mapping_Artwork_test() {
-		assertNotNull(user);
-		assertTrue(user.getPortfolio().size() > 0);
+		assertNotNull(artworkMedium);
+		assertTrue(artworkMedium.getArtwork().size() > 0);
 	}
 	
-	@Test
-	void User_MTM_mapping_Artwork_test() {
-		assertNotNull(user);
-		assertTrue(user.getBookmarkedArt().size() > 0);
-	}
 
 }

@@ -2,7 +2,6 @@ package com.personalprojects.artexico.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,12 +13,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class UserTest {
+class ThemeTest {
 
 	private static EntityManagerFactory emf;
 	private EntityManager em;
-	private User user;
-	
+	private Theme theme;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -34,37 +32,19 @@ class UserTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		user = em.find(User.class, 1);
+		theme = em.find(Theme.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		user = null;
+		theme = null;
 	}
 
 	@Test
-	void User_test() {
-		assertNotNull(user);
-		assertEquals("clobera", user.getUsername());
-	}
-	
-	@Test
-	void User_MTO_mapping_Borough_test() {
-		assertNotNull(user);
-		assertEquals("Álvaro Obregón", user.getBorough().getName());
-	}
-	
-	@Test
-	void User_OTM_mapping_Artwork_test() {
-		assertNotNull(user);
-		assertTrue(user.getPortfolio().size() > 0);
-	}
-	
-	@Test
-	void User_MTM_mapping_Artwork_test() {
-		assertNotNull(user);
-		assertTrue(user.getBookmarkedArt().size() > 0);
+	void Theme_test() {
+		assertNotNull(theme);
+		assertEquals("Theme test", theme.getName());
 	}
 
 }

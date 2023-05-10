@@ -14,11 +14,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class UserTest {
+class ArtworkTest {
 
 	private static EntityManagerFactory emf;
 	private EntityManager em;
-	private User user;
+	private Artwork artwork;
 	
 
 	@BeforeAll
@@ -34,37 +34,50 @@ class UserTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		user = em.find(User.class, 1);
+		artwork = em.find(Artwork.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		user = null;
+		artwork = null;
 	}
 
 	@Test
-	void User_test() {
-		assertNotNull(user);
-		assertEquals("clobera", user.getUsername());
+	void Artwork_test() {
+		assertNotNull(artwork);
+		assertEquals("test", artwork.getTitle());
 	}
 	
 	@Test
-	void User_MTO_mapping_Borough_test() {
-		assertNotNull(user);
-		assertEquals("Álvaro Obregón", user.getBorough().getName());
-	}
-	
-	@Test
-	void User_OTM_mapping_Artwork_test() {
-		assertNotNull(user);
-		assertTrue(user.getPortfolio().size() > 0);
-	}
-	
-	@Test
-	void User_MTM_mapping_Artwork_test() {
-		assertNotNull(user);
-		assertTrue(user.getBookmarkedArt().size() > 0);
+	void Artwork_MTO_mapping_ArtMedium_test() {
+		assertNotNull(artwork);
+		assertEquals("Medium Test", artwork.getArtworkMedium().getName());
 	}
 
+	@Test
+	void Artwork_MTO_mapping_Theme_test() {
+		assertNotNull(artwork);
+		assertEquals("Theme test", artwork.getTheme().getName());
+	}
+	
+	@Test
+	void Artwork_MTO_mapping_User_test() {
+		assertNotNull(artwork);
+		assertEquals("Carlos", artwork.getArtist().getFirstName());
+	}
+	
+	@Test
+	void Artwork_MTM_mapping_User_test() {
+		Artwork artwork2 = em.find(Artwork.class, 2);
+		assertNotNull(artwork2);
+		assertTrue(artwork2.getBookmarks().size() > 0);
+	}
+	
+	@Test
+	void Artwork_MTM_mapping_Materials_test() {
+		assertNotNull(artwork);
+		assertTrue(artwork.getMaterials().size() > 0);
+	}
+	
 }

@@ -1,5 +1,6 @@
 package com.personalprojects.artexico.entities;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -8,10 +9,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User {
+	// ---------- ENTITIES ----------
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -39,19 +46,30 @@ public class User {
 
 	@Column(name = "account_type")
 	private String accountType;
-	
+
+	// --- ENTITES WITH RELATIONSHIPS---
 	@ManyToOne
 	@JoinColumn(name = "borough_id")
 	private Borough borough;
 
+	@OneToMany(mappedBy = "artist")
+	private List<Artwork> portfolio;
+
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "user_has_bookmarked_artwork", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "artwork_id"))
+	private List<Artwork> bookmarkedArt;
+
+	// ----- ADD & REMOVE METHODS ------
+
+	// ---------- CONSTRUCTORS ----------
 	public User() {
 		super();
 	}
 
-	
-
 	public User(int id, String email, String username, String password, boolean enabled, String role, String firstName,
-			String lastName, String imageUrl, String bio, String accountType, Borough borough) {
+			String lastName, String imageUrl, String bio, String accountType, Borough borough, List<Artwork> portfolio,
+			List<Artwork> bookmarkedArt) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -65,10 +83,11 @@ public class User {
 		this.bio = bio;
 		this.accountType = accountType;
 		this.borough = borough;
+		this.portfolio = portfolio;
+		this.bookmarkedArt = bookmarkedArt;
 	}
 
-
-
+	// GETTERS & SETTERS, HASHCODE AND EQUALS, AND TO-STRING
 	public int getId() {
 		return id;
 	}
@@ -148,31 +167,38 @@ public class User {
 	public void setBio(String bio) {
 		this.bio = bio;
 	}
-	
 
 	public String getAccountType() {
 		return accountType;
 	}
 
-
-
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
-
-
 
 	public Borough getBorough() {
 		return borough;
 	}
 
-
-
 	public void setBorough(Borough borough) {
 		this.borough = borough;
 	}
 
+	public List<Artwork> getPortfolio() {
+		return portfolio;
+	}
 
+	public void setPortfolio(List<Artwork> portfolio) {
+		this.portfolio = portfolio;
+	}
+
+	public List<Artwork> getBookmarkedArt() {
+		return bookmarkedArt;
+	}
+
+	public void setBookmarkedArt(List<Artwork> bookmarkedArt) {
+		this.bookmarkedArt = bookmarkedArt;
+	}
 
 	@Override
 	public int hashCode() {
@@ -196,8 +222,7 @@ public class User {
 		return "User [id=" + id + ", email=" + email + ", username=" + username + ", password=" + password
 				+ ", enabled=" + enabled + ", role=" + role + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", imageUrl=" + imageUrl + ", bio=" + bio + ", accountType=" + accountType + ", borough=" + borough
-				+ "]";
+				+ ", portfolio=" + portfolio + ", bookmarkedArt=" + bookmarkedArt + "]";
 	}
 
 }
-
