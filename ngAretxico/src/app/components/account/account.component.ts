@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Borough } from 'src/app/models/borough';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { BoroughService } from 'src/app/services/borough.service';
 
 @Component({
   selector: 'app-account',
@@ -10,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class AccountComponent {
   loggedInUser = new User();
+
 
   constructor(private router: Router, private auth: AuthService) {}
 
@@ -30,5 +33,6 @@ export class AccountComponent {
       }
     });
   }
+
 
 }

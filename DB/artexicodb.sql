@@ -260,6 +260,7 @@ START TRANSACTION;
 USE `artexicodb`;
 INSERT INTO `user` (`id`, `email`, `username`, `password`, `enabled`, `role`, `first_name`, `last_name`, `image_url`, `bio`, `account_type`, `borough_id`) VALUES (1, 'carlosclobera@gmail.com', 'clobera', '$2a$10$4SMKDcs9jT18dbFxqtIqDeLEynC7MUrCEUbv1a/bhO.x9an9WGPvm', 1, 'admin', 'Carlos', 'Lobera', NULL, NULL, 'artist', 1);
 INSERT INTO `user` (`id`, `email`, `username`, `password`, `enabled`, `role`, `first_name`, `last_name`, `image_url`, `bio`, `account_type`, `borough_id`) VALUES (2, 'carloslobera@gmail.com', 'bdobbs', '$2a$10$EGfvuDgIKqhmzlDf34s/aOxU0fSWf/2uZnxQqcIS3n9j7cIwIqnFa', 1, 'admin', 'test', 'test', NULL, NULL, 'artist', 1);
+INSERT INTO `user` (`id`, `email`, `username`, `password`, `enabled`, `role`, `first_name`, `last_name`, `image_url`, `bio`, `account_type`, `borough_id`) VALUES (3, 'carloslobera@gmail.com', 'admin', '$2a$10$4SMKDcs9jT18dbFxqtIqDeLEynC7MUrCEUbv1a/bhO.x9an9WGPvm', 1, 'admin', 'admin', 'admin', NULL, NULL, 'admin', 1);
 
 COMMIT;
 
