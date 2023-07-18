@@ -1,12 +1,98 @@
-<h1>{{ loggedInUser.username }}'s account</h1>
-<div class="container my-container">
-  <!-- ROW 1 -->
-  <div class="row my-row">
-    <div class="col-md-4 my-col">ROW 1 COL 1</div>
-    <div class="col-md-8 my-col">ROW 1 COL 2</div>
-  </div>
-  <!-- ROW 2 -->
-  <div class="row my-row">
-    <div class="col my-col">ROW 2 COL 1</div>
-  </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Page</title>
+  </head>
+  <body>
+    <main>
+      <aside class="sticky" *ngIf="!showUpdateForm">[CHANGE ME TO PROFILE PIC]</aside>
+      <section class="article" *ngIf="!showUpdateForm">
+        <div class="hero">
+          <h1>{{ loggedInUser.username }}</h1>
+          <h1>{{ loggedInUser.borough.name }}</h1>
+          <p>{{ loggedInUser.bio }}</p>
+          <button (click)="showUpdateForm = true">Edit</button>
+        </div>
+        <div class="grid">
+          <div class="box">Box 1</div>
+          <div class="box">Box 2</div>
+          <div class="box">Box 3</div>
+          <div class="box">Box 4</div>
+          <div class="box">Box 5</div>
+          <div class="box">Box 6</div>
+        </div>
+      </section>
+
+      <!-- UPDATE FORM -->
+      <div *ngIf="showUpdateForm" class="updateAcct">
+        <form>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">EMAIL</span>
+            <input
+              [(ngModel)]="loggedInUser.email"
+              name="email"
+              placeholder="'JOHN.DOE@EMAIL.COM'"
+              type="text"
+              class="form-control"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">FIRST NAME</span>
+            <input
+              [(ngModel)]="loggedInUser.firstName"
+              name="firstName"
+              placeholder="'JOHN'"
+              type="text"
+              class="form-control"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">LAST NAME</span>
+            <input
+              [(ngModel)]="loggedInUser.lastName"
+              name="lastName"
+              placeholder="'DOE'"
+              type="text"
+              class="form-control"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">IMAGE URL</span>
+            <input
+              [(ngModel)]="loggedInUser.imageUrl"
+              name="imageUrl"
+              placeholder="https://..."
+              type="text"
+              class="form-control"
+              />
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default">BIO</span>
+              <input
+              [(ngModel)]="loggedInUser.bio"
+              name="bio"
+              placeholder="I LOVE ART!"
+              type="text"
+              class="form-control"
+              />
+          </div>
+
+          <label for="borough">Zona: </label>
+          <select name="borough" class="form-select" [(ngModel)]="currBoroId" (ngModelChange)="loggedInUser.borough = boroughs[currBoroId - 1]">
+            <option *ngFor="let boro of boroughs" value="{{ boro.id }}">
+              {{ boro.name }}
+            </option>
+          </select>
+          <button type="submit" class="btn btn-primary" (click)="update(loggedInUser, loggedInUser.username)">Make Changes</button>
+        </form>
+
+        <button (click)="showUpdateForm = false">Cancel</button>
+
+      </div>
+    </main>
+    <footer>footer</footer>
+  </body>
+</html>

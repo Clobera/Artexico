@@ -1,15 +1,97 @@
-body{
-  margin: 30px;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.my-container {
-  border: 1px solid green;
+header, footer{
+  background: #eee;
+  padding: 5rem;
+  text-align: center;
 }
 
-.my-row {
-  border: 3px solid red;
+main{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 80%;
+  margin: 2rem auto;
 }
 
-.my-col {
-  border: 3px dotted blue;
+.article{
+  // background: #eee;
+  flex-grow: 999;
+  flex-basis: 0;
+
+}
+
+.sticky{
+  background: #eee;
+  height: 10rem;
+  width: 10rem;
+  flex-grow: 1;
+  flex-basis: 300px;
+  position: sticky;
+  // top: 2rem;
+  // Center text
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero{
+  max-width: 50rem;
+  margin-bottom: 3rem;
+  h1{
+    font-size: 4rem;
+    margin-bottom: .5rem;
+  }
+
+  p{
+    color: #555;
+    opacity: .8;
+    line-height: 1.5rem;
+  }
+
+  button{
+    background: #111;
+    color: #fff;
+    padding: .7rem 1.5rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+}
+
+.grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap:2rem;
+
+  div{
+    background: #eee;
+    height: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.updateAcct{
+  button{
+    background: #111;
+    color: #fff;
+    padding: .7rem 1.5rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+}
+
+@media (min-width: 788px) {
+  .sticky {
+    top: 2rem;
+  }
 }
